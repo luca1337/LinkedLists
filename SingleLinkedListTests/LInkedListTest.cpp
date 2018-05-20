@@ -4,11 +4,11 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace SingleLinkedListTests
-{		
+{
 	TEST_CLASS(LInkedListTest)
 	{
 	public:
-		
+
 		TEST_METHOD(TestLinkedListInitialization)
 		{
 			LinkedListSingle<int> List;
@@ -58,6 +58,39 @@ namespace SingleLinkedListTests
 
 			Assert::IsNotNull(List.First()->Next);
 			Assert::AreEqual(List.First()->Next->Data, 30);
+		}
+
+		TEST_METHOD(TestLinkedListSortDefaultComparer)
+		{
+
+			LinkedListSingle<int> List;
+
+			srand((unsigned)time(nullptr));
+
+			List.AppendLast(50);
+			List.AppendLast(20);
+			List.AppendLast(10);
+			List.AppendLast(40);
+			List.AppendLast(30);
+
+			Assert::AreEqual(50, List.First()->Data);
+
+			List.Sort(nullptr);
+
+			LinkedListNode<int>* First = List.First();
+
+			while (First->Next)
+			{
+				Assert::IsTrue(IsSorted((void*)First->Data, (void*)First->Next->Data));
+				First = First->Next;
+			}
+
+			delete First;
+		}
+
+		static bool IsSorted(void* left, void* right)
+		{
+			return left < right;
 		}
 
 	};

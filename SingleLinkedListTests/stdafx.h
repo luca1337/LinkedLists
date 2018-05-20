@@ -12,5 +12,6 @@
 
 // TODO: reference additional headers your program requires here
 
+#include <time.h>
 #include "../TreeDataStructure/LinkedListNode.h"
 #include "../TreeDataStructure/LinkedListSingle.h"

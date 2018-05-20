@@ -12,6 +12,10 @@ public:
 	LinkedList();
 	Node<T>* AddAfter(Node<T>* node, T elem);
 	void AddAfter(Node<T>* node, Node<T>* newNode);
+	Node<T>* AddBefore(Node<T>* node, T elem);
+	void AddBefore(Node<T>* node, Node<T>* newNode);
+	Node<T>* AppendFirst(T elem);
+	void AppendFirst(Node<T>* node);
 	Node<T>* AppendLast(T elem);
 	void AppendLast(Node<T>* node);
 	Node<T>* Find(T elem);
@@ -43,6 +47,49 @@ inline Node<T>* LinkedList<T>::AddAfter(Node<T>* node, T elem)
 template<class T>
 inline void LinkedList<T>::AddAfter(Node<T>* node, Node<T>* newNode)
 {
+
+}
+
+template<class T>
+inline Node<T>* LinkedList<T>::AddBefore(Node<T>* node, T elem)
+{
+	Node<T>* ToFind = this->Find(node->Data);
+	Node<T>* ToAdd = new Node<T>(elem);
+	Node<T>* Temp = new Node<T>();
+
+	if (ToFind == this->Head) //adding before head
+	{
+		Temp = this->Head;
+		this->Head->Prev = ToAdd;
+		this->Head = ToAdd;
+		ToAdd->Next = Temp;
+	}
+	else // in any other situation
+	{
+		Temp = ToFind->Prev;
+		ToFind->Prev = ToAdd;
+		ToAdd->Next = ToFind;
+		Temp->Next = ToAdd;
+		ToAdd->Prev = Temp;
+	}
+
+	return ToAdd;
+}
+
+template<class T>
+inline void LinkedList<T>::AddBefore(Node<T>* node, Node<T>* newNode)
+{
+}
+
+template<class T>
+inline Node<T>* LinkedList<T>::AppendFirst(T elem)
+{
+	return NULL;
+}
+
+template<class T>
+inline void LinkedList<T>::AppendFirst(Node<T>* node)
+{
 }
 
 template<class T>
@@ -55,11 +102,18 @@ inline Node<T>* LinkedList<T>::AppendLast(T elem)
 		this->Head = Temp;
 		this->Tail = Temp;
 	}
-	else
+	else if (this->Head == this->Tail)
 	{
 		Temp->Prev = this->Tail;
 		this->Tail->Next = Temp;
 		this->Tail = Temp;
+	}
+	else
+	{
+		this->Tail->Next = Temp;
+		Temp->Prev = this->Tail;
+		this->Tail = Temp;
+
 	}
 	this->Count++;
 	return Temp;

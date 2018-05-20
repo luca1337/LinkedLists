@@ -32,7 +32,7 @@ public:
 	LinkedListNode<T>* Find(T elem);
 	LinkedListNode<T>* Reverse();
 	LinkedListSingle<T> Shuffle();
-	void Sort(bool(*Cmp)(void*, void*));
+	void Sort(bool(*Cmp)(void*, void*) = nullptr);
 	void Remove(T elem);
 	void Remove(LinkedListNode<T> node);
 	void RemoveFirst();
@@ -272,11 +272,6 @@ inline LinkedListNode<T>* LinkedListSingle<T>::Find(T elem)
 		Temp = Temp->Next;
 	}
 
-	if (!Temp)
-	{
-		return Temp;
-	}
-
 	return nullptr;
 }
 
@@ -316,7 +311,7 @@ inline LinkedListSingle<T> LinkedListSingle<T>::Shuffle()
 }
 
 template<class T>
-inline void LinkedListSingle<T>::Sort(bool(*Cmp)(void*, void*))
+inline void LinkedListSingle<T>::Sort(bool(*Cmp)(void*, void*) = nullptr)
 {
 	if (this->Count < 1)
 		return;
@@ -325,17 +320,14 @@ inline void LinkedListSingle<T>::Sort(bool(*Cmp)(void*, void*))
 
 	LinkedListNode<T>* First = this->Head;
 
-	while (this->Count > 0)
+	while (this->Count-- > 0)
 	{
-		this->Count--;
 		if (First->Next == nullptr)
 			break;
 
 		for (unsigned i = 0; i < this->Count; i++)
 		{
-			int Cmp = this->CompareElements((void*)First->Data, (void*)First->Next->Data);
-
-			if (Cmp)
+			if (this->CompareElements((void*)First->Data, (void*)First->Next->Data))
 			{
 				T Elem = First->Data;
 				First->Data = First->Next->Data;

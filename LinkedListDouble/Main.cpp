@@ -4,9 +4,11 @@ int main()
 {
 	LinkedList<int> List;
 
-	List.AppendLast(10);
 	List.AppendLast(20);
-	List.AppendLast(30);
+
+	Node<int>* ToFind = new Node<int>(20);
+
+	Node<int>* Ret = List.AddBefore(ToFind, 75);
 
 	List.Traverse();
 
