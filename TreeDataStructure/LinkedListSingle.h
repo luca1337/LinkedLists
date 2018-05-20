@@ -22,7 +22,7 @@ template <class T> class LinkedListSingle
 
 public:
 	LinkedListSingle();
-
+	~LinkedListSingle();
 	LinkedListNode<T>* AddAfter(LinkedListNode<T>* node, T elem);
 	void AddAfter(LinkedListNode<T>* node, LinkedListNode<T>* newNode);
 	LinkedListNode<T>* AppendLast(T elem);
@@ -32,7 +32,7 @@ public:
 	LinkedListNode<T>* Find(T elem);
 	LinkedListNode<T>* Reverse();
 	LinkedListSingle<T> Shuffle();
-	void Sort(bool(*Cmp)(void*, void*) = nullptr);
+	void Sort(bool(*Cmp)(void*, void*));
 	void Remove(T elem);
 	void Remove(LinkedListNode<T> node);
 	void RemoveFirst();
@@ -64,6 +64,12 @@ inline LinkedListSingle<T>::LinkedListSingle()
 }
 
 template<class T>
+inline LinkedListSingle<T>::~LinkedListSingle()
+{
+
+}
+
+template<class T>
 inline LinkedListNode<T>* LinkedListSingle<T>::AddAfter(LinkedListNode<T>* node, T elem)
 {
 	LinkedListNode<T>* FoundNode = this->Find(node->Data);
@@ -72,7 +78,7 @@ inline LinkedListNode<T>* LinkedListSingle<T>::AddAfter(LinkedListNode<T>* node,
 
 	Temp->Data = elem;
 
-	CHECK_ERROR(FoundNode);
+	CHECK_ERROR_RET(FoundNode);
 
 	if (FoundNode == this->Head && FoundNode == this->Tail)
 	{
@@ -311,7 +317,7 @@ inline LinkedListSingle<T> LinkedListSingle<T>::Shuffle()
 }
 
 template<class T>
-inline void LinkedListSingle<T>::Sort(bool(*Cmp)(void*, void*) = nullptr)
+inline void LinkedListSingle<T>::Sort(bool(*Cmp)(void*, void*))
 {
 	if (this->Count < 1)
 		return;

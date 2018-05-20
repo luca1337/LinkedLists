@@ -9,10 +9,10 @@ int main()
 
 	srand((unsigned)time(NULL));
 
-	for (size_t i = 0; i < 20; i++)
-	{
-		List.AppendFirst(rand() % 150);
-	}
+	List.AppendFirst(10);
+	List.AppendFirst(20);
+	List.AppendFirst(30);
+	List.AppendFirst(40);
 
 	List.Traverse();
 

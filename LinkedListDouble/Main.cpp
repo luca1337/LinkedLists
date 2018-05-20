@@ -5,10 +5,12 @@ int main()
 	LinkedList<int> List;
 
 	List.AppendLast(20);
+	List.AppendLast(30);
+	List.AppendLast(40);
 
-	Node<int>* ToFind = new Node<int>(20);
+	Node<int>* ToFind;
 
-	Node<int>* Ret = List.AddBefore(ToFind, 75);
+	Node<int>* Ret = List.AddBefore2(ToFind, 10);
 
 	List.Traverse();
 
