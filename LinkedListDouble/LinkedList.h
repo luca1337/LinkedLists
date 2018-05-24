@@ -10,6 +10,9 @@ template <class T> class LinkedList
 
 public:
 	LinkedList();
+	LinkedList(const LinkedList<T>& other);
+	LinkedList(LinkedList<T>&& other) noexcept;
+	LinkedList<T>& operator=(LinkedList<T>&& other);
 	Node<T>* AddAfter(Node<T>* node, T elem);
 	void AddAfter(Node<T>* node, Node<T>* newNode);
 	Node<T>* AddBefore(Node<T>* node, T elem);
@@ -39,15 +42,104 @@ inline LinkedList<T>::LinkedList()
 }
 
 template<class T>
+inline LinkedList<T>::LinkedList(const LinkedList<T>& other)
+{
+	Node<T>* TempHead = other.Head;
+
+	while (TempHead != nullptr)
+	{
+		this->AppendLast(TempHead->Data);
+		TempHead = TempHead->Next;
+	}
+}
+
+template<class T>
+inline LinkedList<T>::LinkedList(LinkedList<T>&& other) noexcept
+{
+	Node<T>* TempHead = other.Head;
+	std::cout << "move ctor called" << std::endl;
+	while (TempHead != nullptr)
+	{
+		std::move(this->AppendLast(TempHead->Data));
+		TempHead = TempHead->Next;
+	}
+}
+
+template<class T>
+inline LinkedList<T>& LinkedList<T>::operator=(LinkedList<T>&& other)
+{
+	// TODO: inserire l'istruzione return qui
+	Node<T>* TempHead = other.Head;
+	std::cout << "move ass called" << std::endl;
+	while (TempHead != nullptr)
+	{
+		std::move(this->AppendLast(TempHead->Data));
+		TempHead->Prev = nullptr;;
+		TempHead = TempHead->Next;
+	}
+
+	return *this;
+}
+
+template<class T>
 inline Node<T>* LinkedList<T>::AddAfter(Node<T>* node, T elem)
 {
-	return NULL;
+	Node<T>* ToFind = this->Find(node->Data);
+	Node<T>* NewNode = new Node<T>(elem);
+	Node<T>* Temp = new Node<T>();
+
+	if (!this->Head) {
+		this->Head = NewNode;
+		this->Tail = NewNode;
+		this->Head->Next = this->Tail;
+		this->Tail->Prev = this->Head;
+	}
+
+	if (ToFind == this->Tail)
+	{
+		this->Tail->Next = NewNode;
+		NewNode->Prev = this->Tail;
+		this->Tail = NewNode;
+		return NewNode;
+	}
+	else
+	{
+		Temp = ToFind->Next;
+		ToFind->Next = NewNode;
+		NewNode->Next = Temp;
+		Temp->Prev = NewNode;
+		NewNode->Prev = ToFind;
+		return NewNode;
+	}
 }
 
 template<class T>
 inline void LinkedList<T>::AddAfter(Node<T>* node, Node<T>* newNode)
 {
+	Node<T>* ToFind = this->Find(node->Data);
+	Node<T>* Temp = new Node<T>();
 
+	if (!this->Head) {
+		this->Head = NewNode;
+		this->Tail = NewNode;
+		this->Head->Next = this->Tail;
+		this->Tail->Prev = this->Head;
+	}
+
+	if (ToFind == this->Tail)
+	{
+		this->Tail->Next = newNode;
+		newNode->Prev = this->Tail;
+		this->Tail = newNode;
+	}
+	else
+	{
+		Temp = ToFind->Next;
+		ToFind->Next = newNode;
+		newNode->Next = Temp;
+		Temp->Prev = newNode;
+		newNode->Prev = ToFind;
+	}
 }
 
 template<class T>

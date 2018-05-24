@@ -8,9 +8,13 @@ int main()
 	List.AppendLast(30);
 	List.AppendLast(40);
 
-	Node<int>* ToFind;
+	Node<int> find = Node<int>(30);
 
-	Node<int>* Ret = List.AddBefore2(ToFind, 10);
+	List.AddAfter(&find, 35);
+
+	LinkedList<int> List2;
+
+	List2 = std::move(List);
 
 	List.Traverse();
 
